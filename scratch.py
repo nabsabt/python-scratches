@@ -21,6 +21,14 @@ frame.place(relwidth=1, relheight=1)
 titleLabel = tk.Label(frame, text='BASIC CALCULATOR', bg='#80c1ff', font=("Impact", 22))
 titleLabel.place(relx=0.5, rely=0.03, anchor='center')
 
+def popupmsg(msg):
+    popup = tk.Tk()
+    popup.wm_title("ERROR")
+    label = tk.Label(popup, text=msg, font='NORM_FONT')
+    label.pack(side="top", fill="x", pady=10, anchor='center')
+    B1 = tk.Button(popup, text="Okay", command = popup.destroy)
+    B1.pack()
+    popup.mainloop()
 ############################################################input fields
 
 #########ADDITION  ---->
@@ -44,10 +52,13 @@ addresultLabel = tk.Label(frame, text=addResult, bg='#80c1ff')
 addresultLabel.place(relx=0.65, rely=0.15)
 
 def addFunction():
-    a = float(add1Text.get())
-    b = float(add2Text.get())
-    addResult = a + b
-    addresultLabel.configure(text = addResult)
+    try:
+        a = float(add1Text.get())
+        b = float(add2Text.get())
+        addResult = a + b
+        addresultLabel.configure(text = addResult)
+    except ValueError:
+        popupmsg('Please use integer/float only!')
 
 calcAdd = tk.Button(frame, text='Calc', fg='white', bg='#00c100', command=addFunction)
 calcAdd.place(relx=0.85, rely=0.15)
@@ -76,10 +87,13 @@ subresultLabel = tk.Label(frame, text=subResult, bg='#80c1ff')
 subresultLabel.place(relx=0.65, rely=0.3)
 
 def subFunction():
-    a = float(sub1Text.get())
-    b = float(sub2Text.get())
-    subResult = a - b
-    subresultLabel.configure(text = subResult)
+    try:
+        a = float(sub1Text.get())
+        b = float(sub2Text.get())
+        subResult = a - b
+        subresultLabel.configure(text = subResult)
+    except ValueError:
+        popupmsg('Please use integer/float only!')
 
 calcSub = tk.Button(frame, text = 'Calc',fg='white', bg='#00c100', command=subFunction)
 calcSub.place(relx=0.85, rely=0.3)
@@ -108,10 +122,14 @@ multiResultLabel = tk.Label(frame, text=multiResult, bg='#80c1ff')
 multiResultLabel.place(relx=0.65, rely=0.45)
 
 def multiplyFunction():
-    a = float(multi1Text.get())
-    b = float(multi2Text.get())
-    multiResult = a * b
-    multiResultLabel.configure(text = multiResult)
+    try:
+        a = float(multi1Text.get())
+        b = float(multi2Text.get())
+        multiResult = a * b
+        multiResultLabel.configure(text = multiResult)
+    except ValueError:
+        popupmsg('Please use integer/float only!')
+
 
 calcMultiply = tk.Button(frame, text = 'Calc',fg='white', bg='#00c100', command=multiplyFunction)
 calcMultiply.place(relx=0.85, rely=0.45)
@@ -154,6 +172,10 @@ def divFunction():
         #time.sleep(1)
         div2Text.delete(0, 'end')
 
+    except ValueError:
+        popupmsg('Please use integer/float only!')
+
+
 
 divMultiply = tk.Button(frame, text = 'Calc',fg='white', bg='#00c100', command=divFunction)
 divMultiply.place(relx=0.85, rely=0.6)
@@ -161,16 +183,23 @@ divMultiply.place(relx=0.85, rely=0.6)
 #########DIVISION <----
 
 #########RESET ALL VALUES
+def clearLabeltext(label):
+    label.config(text='')
+
 
 def clearAll():
     add1Text.delete(0, 'end')
     add2Text.delete(0, 'end')
+    clearLabeltext(addresultLabel)
     sub1Text.delete(0, 'end')
     sub2Text.delete(0, 'end')
+    clearLabeltext(subresultLabel)
     multi1Text.delete(0, 'end')
     multi2Text.delete(0, 'end')
+    clearLabeltext(multiResultLabel)
     div1Text.delete(0, 'end')
     div2Text.delete(0, 'end')
+    clearLabeltext(divResultLabel)
 
 CAButton = tk.Button(frame, text='Clear All', fg='white', bg='#760000', command=clearAll)
 CAButton.place(relx=0.5, rely=0.7, anchor='center', width ='60')
@@ -182,12 +211,6 @@ def closeWin():
 
 Closebutton = tk.Button(frame, text='Close App', fg='white', bg='#00c100', command=closeWin)
 Closebutton.place(relx=0.5,rely=0.95, anchor='center', width = '80')
-
-
-
-
-#entry = tk.Entry(frame)
-#entry.pack()
 
 
 parentWindow.minsize(minWidth, minHeight)
