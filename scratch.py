@@ -166,7 +166,8 @@ def divFunction():
 
     try:
         divResult = a / b
-        divResultLabel.configure(text=divResult)
+        divResultRound = round(divResult, 7)
+        divResultLabel.configure(text=divResultRound)
     except ZeroDivisionError:
         errorLabel.configure(text='You cannot devide with 0!')
         #time.sleep(1)
